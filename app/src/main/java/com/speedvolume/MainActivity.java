@@ -1,16 +1,20 @@
 package com.speedvolume;
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +58,17 @@ public class MainActivity extends AppCompatActivity {
         spinnerProfile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                config.setActiveProfileIndex(position);
-                config.save(MainActivity.this);
-                sendBroadcast(new Intent("com.speedvolume.CONFIG_CHANGED"));
+                if (position == 1 && !config.isProfile2Unlocked(MainActivity.this)) {
+                    showUnlockDialog(1, "我的生日是多少（例如：0101）？", "0628");
+                    spinnerProfile.setSelection(config.getActiveProfileIndex());
+                } else if (position == 2 && !config.isProfile3Unlocked(MainActivity.this)) {
+                    showUnlockDialog(2, "我喜欢什么（两个字）？", "泥鸭");
+                    spinnerProfile.setSelection(config.getActiveProfileIndex());
+                } else {
+                    config.setActiveProfileIndex(position);
+                    config.save(MainActivity.this);
+                    sendBroadcast(new Intent("com.speedvolume.CONFIG_CHANGED"));
+                }
             }
 
             @Override
@@ -64,10 +76,51 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void showUnlockDialog(int profileIndex, String question, String answer) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("🔒 解锁方案");
+        builder.setMessage(question);
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint("请输入答案");
+        builder.setView(input);
+
+        builder.setPositiveButton("确定", (dialog, which) -> {
+            String userAnswer = input.getText().toString().trim();
+            if (userAnswer.equals(answer)) {
+                if (profileIndex == 1) {
+                    config.unlockProfile2(this);
+                } else if (profileIndex == 2) {
+                    config.unlockProfile3(this);
+                }
+                config.setActiveProfileIndex(profileIndex);
+                config.save(this);
+                setupSpinner();
+                spinnerProfile.setSelection(profileIndex);
+                sendBroadcast(new Intent("com.speedvolume.CONFIG_CHANGED"));
+                Toast.makeText(this, "✅ 解锁成功！", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "❌ 答案错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("取消", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
     private void setupSpinner() {
         List<String> names = new ArrayList<>();
-        for (SpeedVolumeConfig.Profile p : config.getProfiles()) {
-            names.add(p.name);
+        for (int i = 0; i < config.getProfiles().size(); i++) {
+            String name = config.getProfiles().get(i).name;
+            if (i == 1) {
+                name = "狂飙模式";
+                if (!config.isProfile2Unlocked(this)) name += " 🔒";
+            } else if (i == 2) {
+                name = "叫卖模式";
+                if (!config.isProfile3Unlocked(this)) name += " 🔒";
+            }
+            names.add(name);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, names);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

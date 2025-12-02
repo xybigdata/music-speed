@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="狂飙模式配置"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <com.speedvolume.FunctionGraphView
+            android:id="@+id/graphView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#F5F5F5"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择函数"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rgMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <RadioButton
+                android:id="@+id/rbLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="线性函数"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rbPower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="指数函数" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/linearParams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="音量临界值 (c)"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <SeekBar
+                    android:id="@+id/seekVolumeCrit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="30" />
+
+                <TextView
+                    android:id="@+id/tvVolumeCrit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30"
+                    android:textSize="16sp"
+                    android:minWidth="40dp"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="狂飙临界值 (b) km/h"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <SeekBar
+                    android:id="@+id/seekSpeedCrit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="50"
+                    android:progress="20" />
+
+                <TextView
+                    android:id="@+id/tvSpeedCrit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20"
+                    android:textSize="16sp"
+                    android:minWidth="40dp"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvCoefficient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="狂飙系数 (k): 1.5"
+                android:textSize="14sp"
+                android:textColor="#2196F3"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/powerParams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="缓和系数 (a)"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <SeekBar
+                    android:id="@+id/seekEaseCoef"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="1" />
+
+                <TextView
+                    android:id="@+id/tvEaseCoef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.1"
+                    android:textSize="16sp"
+                    android:minWidth="40dp"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="狂飙指数 (b)"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <SeekBar
+                    android:id="@+id/seekPowerIndex"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="10"
+                    android:progress="0" />
+
+                <TextView
+                    android:id="@+id/tvPowerIndex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.0"
+                    android:textSize="16sp"
+                    android:minWidth="40dp"
+                    android:gravity="end" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>

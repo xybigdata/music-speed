@@ -1,0 +1,39 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- 音符 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M45,35 Q45,30 50,30 L52,30 L52,55 Q52,60 47,60 Q42,60 42,55 Q42,50 47,50 Q50,50 52,52 L52,35 Z"/>
+    
+    <!-- 速度线条 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,45 L40,45 L38,48 L30,48 Z"
+        android:fillAlpha="0.8"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M25,52 L38,52 L36,55 L25,55 Z"
+        android:fillAlpha="0.6"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,59 L40,59 L38,62 L28,62 Z"
+        android:fillAlpha="0.4"/>
+    
+    <!-- 音量波纹 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,45 Q65,40 70,45 Q65,50 60,45 Z"
+        android:fillAlpha="0.7"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M65,40 Q72,33 79,40 Q72,47 65,40 Z"
+        android:fillAlpha="0.5"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M70,35 Q79,25 88,35 Q79,45 70,35 Z"
+        android:fillAlpha="0.3"/>
+</vector>

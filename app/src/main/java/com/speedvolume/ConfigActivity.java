@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
@@ -60,8 +61,12 @@ public class ConfigActivity extends AppCompatActivity {
 
     private void setupSpinner() {
         List<String> names = new ArrayList<>();
-        for (SpeedVolumeConfig.Profile p : config.getProfiles()) {
-            names.add(p.name);
+        List<SpeedVolumeConfig.Profile> profiles = config.getProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            String name = profiles.get(i).name;
+            if (i == 1) name = "狂飙模式";
+            if (i == 2) name = "叫卖模式";
+            names.add(name);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, names);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -70,11 +75,25 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
     private void loadProfile(int index) {
+        if (index == 1) {
+            startActivity(new Intent(this, Profile2ConfigActivity.class));
+            finish();
+            return;
+        }
         SpeedVolumeConfig.Profile profile = config.getProfiles().get(index);
         etProfileName.setText(profile.name);
+        etProfileName.setEnabled(index != 2);
         rangesContainer.removeAllViews();
-        for (SpeedVolumeConfig.SpeedRange range : profile.ranges) {
-            addRangeView(range);
+        if (index != 2) {
+            for (SpeedVolumeConfig.SpeedRange range : profile.ranges) {
+                addRangeView(range);
+            }
+        } else {
+            TextView tv = new TextView(this);
+            tv.setText("叫卖模式：全速100%音量");
+            tv.setTextSize(16);
+            tv.setPadding(16, 16, 16, 16);
+            rangesContainer.addView(tv);
         }
     }
 

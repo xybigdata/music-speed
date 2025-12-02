@@ -113,7 +113,7 @@ public class SpeedVolumeService extends Service implements SensorEventListener {
     }
 
     private void adjustVolume(float speedKmh) {
-        int volumePercent = config.getVolumeForSpeed(speedKmh);
+        int volumePercent = config.getVolumeForSpeed(speedKmh, this);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         targetVolume = Math.max(0, (int) (volumePercent * maxVolume / 100.0f));
 
