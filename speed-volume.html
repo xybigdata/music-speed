@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>速度音量控制</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 15px 40px;
+            font-size: 18px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px;
+        }
+        button:active {
+            background: #1976D2;
+        }
+        .info {
+            font-size: 20px;
+            margin: 15px;
+        }
+        audio {
+            width: 100%;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>速度音量控制</h1>
+        <div class="info">状态: <span id="status">已停止</span></div>
+        <div class="info">速度: <span id="speed">0.00</span> m/s</div>
+        <div class="info">音量: <span id="volume">50</span>%</div>
+        <button id="toggleBtn" onclick="toggle()">启动服务</button>
+        <audio id="audio" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        let isRunning = false;
+        let lastAccel = [0, 0, 0];
+        let gravity = [0, 0, 0];
+        let audio = document.getElementById('audio');
+        audio.volume = 0.5;
+
+        function toggle() {
+            if (isRunning) {
+                stop();
+            } else {
+                start();
+            }
+        }
+
+        function start() {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                DeviceMotionEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            startMonitoring();
+                        }
+                    });
+            } else {
+                startMonitoring();
+            }
+        }
+
+        function startMonitoring() {
+            isRunning = true;
+            document.getElementById('status').textContent = '运行中';
+            document.getElementById('toggleBtn').textContent = '停止服务';
+            audio.play();
+            
+            window.addEventListener('devicemotion', handleMotion);
+        }
+
+        function stop() {
+            isRunning = false;
+            document.getElementById('status').textContent = '已停止';
+            document.getElementById('toggleBtn').textContent = '启动服务';
+            audio.pause();
+            window.removeEventListener('devicemotion', handleMotion);
+        }
+
+        function handleMotion(event) {
+            if (!event.accelerationIncludingGravity) return;
+
+            let x = event.accelerationIncludingGravity.x || 0;
+            let y = event.accelerationIncludingGravity.y || 0;
+            let z = event.accelerationIncludingGravity.z || 0;
+
+            const alpha = 0.8;
+            gravity[0] = alpha * gravity[0] + (1 - alpha) * x;
+            gravity[1] = alpha * gravity[1] + (1 - alpha) * y;
+            gravity[2] = alpha * gravity[2] + (1 - alpha) * z;
+
+            let linearX = x - gravity[0];
+            let linearY = y - gravity[1];
+            let linearZ = z - gravity[2];
+
+            let acceleration = Math.sqrt(linearX * linearX + linearY * linearY + linearZ * linearZ);
+            let speed = acceleration * 0.1 + lastAccel[0] * 0.9;
+            lastAccel[0] = speed;
+
+            document.getElementById('speed').textContent = speed.toFixed(2);
+
+            let volumePercent = Math.min(100, Math.max(0, speed * 30));
+            let volumeValue = volumePercent / 100;
+            audio.volume = volumeValue;
+            document.getElementById('volume').textContent = Math.round(volumePercent);
+        }
+    </script>
+</body>
+</html>
