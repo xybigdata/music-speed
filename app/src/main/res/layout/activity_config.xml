@@ -40,14 +40,186 @@
             android:textSize="12sp" />
     </LinearLayout>
 
+    <!-- 实时预览曲线 -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="速度音量映射"
+        android:text="速度-音量曲线预览"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp" />
+
+    <com.speedvolume.FunctionGraphView
+        android:id="@+id/graphView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#FAFAFA"
         android:layout_marginBottom="8dp" />
+
+    <!-- 音量限制设置 - 使用滑块 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#F5F5F5"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="音量限制设置"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <!-- 最小音量滑块 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="最小:"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/seekMinVolume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100" />
+
+            <TextView
+                android:id="@+id/tvMinVolume"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textSize="12sp"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <!-- 最大音量滑块 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="最大:"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/seekMaxVolume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="100" />
+
+            <TextView
+                android:id="@+id/tvMaxVolume"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:textSize="12sp"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cbSmoothTransition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启用音量平滑过渡"
+            android:textSize="12sp"
+            android:checked="true"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- 振动反馈设置 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#E8F5E9"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="振动反馈设置"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <CheckBox
+            android:id="@+id/cbVibrationEnabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启用振动反馈"
+            android:textSize="12sp"
+            android:checked="true" />
+
+        <CheckBox
+            android:id="@+id/cbVibrationOnProfileSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="方案切换时振动"
+            android:textSize="12sp"
+            android:checked="true"
+            android:layout_marginStart="16dp" />
+
+        <CheckBox
+            android:id="@+id/cbVibrationOnThreshold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="速度达到阈值时振动"
+            android:textSize="12sp"
+            android:checked="true"
+            android:layout_marginStart="16dp" />
+
+        <!-- 振动速度阈值滑块 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="阈值:"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/seekVibrationThreshold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="30"
+                android:layout_marginStart="4dp" />
+
+            <TextView
+                android:id="@+id/tvVibrationThreshold"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="30km/h"
+                android:textSize="12sp"
+                android:gravity="end" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -66,6 +238,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
+
+        <Button
+            android:id="@+id/btnTemplates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="模板"
+            android:textSize="12sp"
+            android:layout_margin="4dp" />
 
         <Button
             android:id="@+id/btnAdd"

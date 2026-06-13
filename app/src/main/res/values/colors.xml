@@ -3,4 +3,21 @@
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF4081</color>
+    
+    <!-- 仪表盘日间模式颜色 -->
+    <color name="dashboard_background">#FFFFFF</color>
+    <color name="dashboard_ring">#E0E0E0</color>
+    <color name="dashboard_tick">#9E9E9E</color>
+    <color name="dashboard_tick_text">#616161</color>
+    <color name="dashboard_needle">#2196F3</color>
+    <color name="dashboard_center">#1976D2</color>
+    <color name="dashboard_speed_text">#212121</color>
+    <color name="dashboard_unit_text">#757575</color>
+    <color name="dashboard_progress_ring">#2196F3</color>
+    
+    <!-- 通知颜色 (日间模式) -->
+    <color name="notification_background_color">#FFFFFF</color>
+    <color name="notification_text_primary">#212121</color>
+    <color name="notification_text_secondary">#757575</color>
+    <color name="notification_accent">#2196F3</color>
 </resources>

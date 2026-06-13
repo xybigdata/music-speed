@@ -3,8 +3,11 @@ package com.speedvolume;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -16,28 +19,35 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnToggle, btnConfig;
-    private TextView tvStatus, tvSpeed, tvVolume;
-    private ProgressBar progressSpeed, progressVolume;
+    private Button btnToggle, btnConfig, btnStats, btnBluetooth;
+    private TextView tvStatus, tvVolume;
+    private SpeedDashboardView speedDashboard;
+    private ProgressBar progressVolume;
     private Spinner spinnerProfile;
     private boolean isServiceRunning = false;
     private SpeedVolumeConfig config;
+    private PermissionHelper permissionHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 初始化权限助手
+        permissionHelper = new PermissionHelper();
+
         btnToggle = findViewById(R.id.btnToggle);
         btnConfig = findViewById(R.id.btnConfig);
+        btnStats = findViewById(R.id.btnStats);
+        btnBluetooth = findViewById(R.id.btnBluetooth);
         tvStatus = findViewById(R.id.tvStatus);
-        tvSpeed = findViewById(R.id.tvSpeed);
         tvVolume = findViewById(R.id.tvVolume);
-        progressSpeed = findViewById(R.id.progressSpeed);
+        speedDashboard = findViewById(R.id.speedDashboard);
         progressVolume = findViewById(R.id.progressVolume);
         spinnerProfile = findViewById(R.id.spinnerProfile);
 
@@ -53,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
         btnConfig.setOnClickListener(v -> {
             v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_up));
             startActivity(new Intent(this, ConfigActivity.class));
+        });
+        
+        btnStats.setOnClickListener(v -> {
+            v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_up));
+            startActivity(new Intent(this, StatsActivity.class));
+        });
+        
+        btnBluetooth.setOnClickListener(v -> {
+            v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_up));
+            startActivity(new Intent(this, BluetoothDeviceActivity.class));
         });
 
         spinnerProfile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -137,12 +157,123 @@ public class MainActivity extends AppCompatActivity {
             tvStatus.setText("状态: 已停止");
             tvStatus.setTextColor(0xFF666666);
         } else {
-            startForegroundService(intent);
-            isServiceRunning = true;
-            btnToggle.setText("停止服务");
-            tvStatus.setText("状态: 运行中");
-            tvStatus.setTextColor(0xFF4CAF50);
-            tvStatus.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+            // 启动服务前检查权限
+            checkAndRequestPermissions();
+        }
+    }
+
+    /**
+     * 检查并请求权限
+     */
+    private void checkAndRequestPermissions() {
+        if (permissionHelper.hasAllPermissions(this)) {
+            // 权限已授予，启动服务
+            startSpeedVolumeService();
+        } else if (permissionHelper.shouldShowRationale(this)) {
+            // 用户之前拒绝过权限，显示说明对话框
+            showPermissionRationaleDialog();
+        } else {
+            // 直接请求权限
+            permissionHelper.requestPermissions(this);
+        }
+    }
+
+    /**
+     * 显示权限说明对话框
+     */
+    private void showPermissionRationaleDialog() {
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_permission_rationale, null);
+        
+        AlertDialog dialog = new AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create();
+        
+        dialog.show();
+        
+        // 授予权限按钮
+        Button btnGrantPermission = dialogView.findViewById(R.id.btnGrantPermission);
+        btnGrantPermission.setOnClickListener(v -> {
+            dialog.dismiss();
+            permissionHelper.requestPermissions(MainActivity.this);
+        });
+        
+        // 前往设置按钮
+        Button btnGoToSettings = dialogView.findViewById(R.id.btnGoToSettings);
+        btnGoToSettings.setOnClickListener(v -> {
+            dialog.dismiss();
+            permissionHelper.openSettings(MainActivity.this);
+        });
+    }
+
+    /**
+     * 显示权限被拒绝对话框
+     */
+    private void showPermissionDeniedDialog() {
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_permission_denied, null);
+        
+        AlertDialog dialog = new AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create();
+        
+        dialog.show();
+        
+        // 前往设置按钮
+        Button btnOpenSettings = dialogView.findViewById(R.id.btnOpenSettings);
+        btnOpenSettings.setOnClickListener(v -> {
+            dialog.dismiss();
+            permissionHelper.openSettings(MainActivity.this);
+        });
+        
+        // 稍后再说按钮
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(v -> {
+            dialog.dismiss();
+            Toast.makeText(this, "⚠️ 部分功能可能无法正常使用", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    /**
+     * 启动速度音量服务
+     */
+    private void startSpeedVolumeService() {
+        Intent intent = new Intent(this, SpeedVolumeService.class);
+        startForegroundService(intent);
+        isServiceRunning = true;
+        btnToggle.setText("停止服务");
+        tvStatus.setText("状态: 运行中");
+        tvStatus.setTextColor(0xFF4CAF50);
+        tvStatus.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
+    }
+
+    /**
+     * 处理权限请求结果
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
+        if (requestCode == permissionHelper.getRequestCode()) {
+            boolean allGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allGranted = false;
+                    break;
+                }
+            }
+            
+            if (allGranted) {
+                // 检查是否需要请求后台位置权限（Android 10+）
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    // 暂时不强制请求后台位置权限，让用户自行选择
+                    // permissionHelper.requestBackgroundLocationPermission(this);
+                }
+                startSpeedVolumeService();
+            } else {
+                // 用户拒绝了部分权限
+                showPermissionDeniedDialog();
+            }
         }
     }
 
@@ -153,10 +284,13 @@ public class MainActivity extends AppCompatActivity {
         setupSpinner();
         
         SpeedVolumeService.setUpdateListener((speedKmh, volume) -> runOnUiThread(() -> {
-            tvSpeed.setText(String.format("速度: %.1f km/h", speedKmh));
+            // 更新速度仪表盘
+            speedDashboard.setSpeed(speedKmh);
+            
+            // 更新音量显示
             tvVolume.setText(String.format("音量: %d%%", volume));
             
-            animateProgress(progressSpeed, (int) Math.min(100, speedKmh));
+            // 更新音量进度条
             animateProgress(progressVolume, volume);
         }));
     }

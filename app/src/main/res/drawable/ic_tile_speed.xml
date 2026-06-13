@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 快捷设置磁贴图标 - 音速骑士 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    
+    <!-- 音符主体 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,4 Q10,2 12,2 L13,2 L13,14 Q13,16 11,16 Q9,16 9,14 Q9,12 11,12 Q12,12 13,13 L13,6 Q10,6 10,4 Z"/>
+    
+    <!-- 速度线条 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M3,8 L8,8 L7.5,9.5 L3,9.5 Z"
+        android:fillAlpha="0.8"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M2,11 L7,11 L6.5,12.5 L2,12.5 Z"
+        android:fillAlpha="0.6"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M3,14 L8,14 L7.5,15.5 L3,15.5 Z"
+        android:fillAlpha="0.4"/>
+    
+    <!-- 音量波纹 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M16,8 Q18,6 20,8 Q18,10 16,8 Z"
+        android:fillAlpha="0.8"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M17.5,5.5 Q20.5,2.5 23.5,5.5 Q20.5,8.5 17.5,5.5 Z"
+        android:fillAlpha="0.5"/>
+    
+</vector>

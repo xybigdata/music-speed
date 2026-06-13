@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FileProvider 路径配置 -->
+<paths>
+    <!-- 外部存储文件 -->
+    <external-files-path
+        name="documents"
+        path="Documents/exports/" />
+    
+    <!-- 内部存储文件 -->
+    <files-path
+        name="internal_files"
+        path="." />
+    
+    <!-- 缓存文件 -->
+    <cache-path
+        name="cache"
+        path="." />
+</paths>

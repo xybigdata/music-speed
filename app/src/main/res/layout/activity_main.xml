@@ -15,8 +15,9 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#333333"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="24dp" />
 
+    <!-- 速度仪表盘 -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,29 +29,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp"
+            android:padding="16dp"
+            android:gravity="center"
             android:background="@android:color/white">
 
-            <TextView
-                android:id="@+id/tvSpeed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="速度: 0.0 km/h"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#2196F3"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp" />
-
-            <ProgressBar
-                android:id="@+id/progressSpeed"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:max="100"
-                android:progress="0"
-                android:progressTint="#2196F3"
-                android:layout_marginBottom="24dp" />
+            <com.speedvolume.SpeedDashboardView
+                android:id="@+id/speedDashboard"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/tvVolume"
@@ -61,7 +48,7 @@
                 android:textStyle="bold"
                 android:textColor="#FF4081"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="8dp" />
 
             <ProgressBar
                 android:id="@+id/progressVolume"
@@ -109,6 +96,28 @@
         android:textSize="16sp"
         android:paddingHorizontal="32dp"
         android:paddingVertical="12dp"
-        android:backgroundTint="#FF9800" />
+        android:backgroundTint="#FF9800"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="使用统计"
+        android:textSize="16sp"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="12dp"
+        android:backgroundTint="#9C27B0"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnBluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自动启停"
+        android:textSize="16sp"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="12dp"
+        android:backgroundTint="#00BCD4" />
 
 </LinearLayout>

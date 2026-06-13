@@ -19,15 +19,25 @@ build/
 .gradle/
 gradle-app.setting
 !gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.jar
 .gradletasknamecache
 
 # Local configuration file (sdk path, etc)
 local.properties
 
-# Android Studio
+# IDE files
 *.iml
 .idea/
+.vscode/
+
+# Kiro spec files (keep for documentation)
+# .kiro/
+
+# OS generated files
 .DS_Store
+Thumbs.db
+
+# External native build
 .externalNativeBuild
 .cxx
 captures/
@@ -35,9 +45,14 @@ captures/
 # Keystore files
 *.jks
 *.keystore
+keystore.properties
 
 # Log Files
 *.log
 
 # Android Profiling
 *.hprof
+
+# Secrets and sensitive files
+secrets.properties
+api_keys.properties

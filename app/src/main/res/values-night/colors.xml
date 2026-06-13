@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 夜间模式颜色 -->
+    <color name="colorPrimary">#64B5F6</color>
+    <color name="colorPrimaryDark">#42A5F5</color>
+    <color name="colorAccent">#FF80AB</color>
+    
+    <!-- 仪表盘夜间模式颜色 -->
+    <color name="dashboard_background">#1A1A1A</color>
+    <color name="dashboard_ring">#333333</color>
+    <color name="dashboard_tick">#666666</color>
+    <color name="dashboard_tick_text">#AAAAAA</color>
+    <color name="dashboard_needle">#64B5F6</color>
+    <color name="dashboard_center">#42A5F5</color>
+    <color name="dashboard_speed_text">#E0E0E0</color>
+    <color name="dashboard_unit_text">#9E9E9E</color>
+    <color name="dashboard_progress_ring">#64B5F6</color>
+    
+    <!-- 通知颜色 (夜间模式) -->
+    <color name="notification_background_color">#1A1A1A</color>
+    <color name="notification_text_primary">#E0E0E0</color>
+    <color name="notification_text_secondary">#9E9E9E</color>
+    <color name="notification_accent">#64B5F6</color>
+</resources>

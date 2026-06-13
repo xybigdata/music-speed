@@ -19,6 +19,22 @@ public class SpeedVolumeConfig {
     private static final String KEY_P2_EASE_COEF = "profile2EaseCoef";
     private static final String KEY_P2_POWER_INDEX = "profile2PowerIndex";
     
+    // 音量限制配置
+    private static final String KEY_MIN_VOLUME_LIMIT = "minVolumeLimit";
+    private static final String KEY_MAX_VOLUME_LIMIT = "maxVolumeLimit";
+    private static final String KEY_SMOOTH_TRANSITION = "smoothTransition";
+    
+    // 振动反馈配置
+    private static final String KEY_VIBRATION_ENABLED = "vibrationEnabled";
+    private static final String KEY_VIBRATION_ON_PROFILE_SWITCH = "vibrationOnProfileSwitch";
+    private static final String KEY_VIBRATION_ON_THRESHOLD = "vibrationOnThreshold";
+    private static final String KEY_VIBRATION_SPEED_THRESHOLD = "vibrationSpeedThreshold";
+    
+    // 自动启停配置
+    private static final String KEY_AUTO_START_STOP_ENABLED = "autoStartStopEnabled";
+    private static final String KEY_TRIGGER_BLUETOOTH_ADDRESS = "triggerBluetoothAddress";
+    private static final String KEY_TRIGGER_BLUETOOTH_NAME = "triggerBluetoothName";
+    
     public static class SpeedRange {
         public float minSpeed;
         public float maxSpeed;
@@ -221,6 +237,225 @@ public class SpeedVolumeConfig {
     public void setProfile2PowerIndex(Context context, float value) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         prefs.edit().putFloat(KEY_P2_POWER_INDEX, value).apply();
+    }
+    
+    // ==================== 音量限制配置 ====================
+    
+    /**
+     * 获取最小音量限制
+     * @param context 上下文
+     * @return 最小音量百分比 (默认 0)
+     */
+    public int getMinVolumeLimit(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getInt(KEY_MIN_VOLUME_LIMIT, 0);
+    }
+    
+    /**
+     * 设置最小音量限制
+     * @param context 上下文
+     * @param min 最小音量百分比 (0-100)
+     */
+    public void setMinVolumeLimit(Context context, int min) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putInt(KEY_MIN_VOLUME_LIMIT, min).apply();
+    }
+    
+    /**
+     * 获取最大音量限制
+     * @param context 上下文
+     * @return 最大音量百分比 (默认 100)
+     */
+    public int getMaxVolumeLimit(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getInt(KEY_MAX_VOLUME_LIMIT, 100);
+    }
+    
+    /**
+     * 设置最大音量限制
+     * @param context 上下文
+     * @param max 最大音量百分比 (0-100)
+     */
+    public void setMaxVolumeLimit(Context context, int max) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putInt(KEY_MAX_VOLUME_LIMIT, max).apply();
+    }
+    
+    /**
+     * 是否启用平滑过渡
+     * @param context 上下文
+     * @return 是否启用平滑过渡 (默认 true)
+     */
+    public boolean isSmoothTransitionEnabled(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(KEY_SMOOTH_TRANSITION, true);
+    }
+    
+    /**
+     * 设置是否启用平滑过渡
+     * @param context 上下文
+     * @param enabled 是否启用
+     */
+    public void setSmoothTransitionEnabled(Context context, boolean enabled) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(KEY_SMOOTH_TRANSITION, enabled).apply();
+    }
+    
+    // ==================== 振动反馈配置 ====================
+    
+    /**
+     * 是否启用振动反馈
+     * @param context 上下文
+     * @return 是否启用振动反馈 (默认 true)
+     */
+    public boolean isVibrationEnabled(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(KEY_VIBRATION_ENABLED, true);
+    }
+    
+    /**
+     * 设置是否启用振动反馈
+     * @param context 上下文
+     * @param enabled 是否启用
+     */
+    public void setVibrationEnabled(Context context, boolean enabled) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(KEY_VIBRATION_ENABLED, enabled).apply();
+    }
+    
+    /**
+     * 是否在方案切换时振动
+     * @param context 上下文
+     * @return 是否在方案切换时振动 (默认 true)
+     */
+    public boolean isVibrationOnProfileSwitch(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(KEY_VIBRATION_ON_PROFILE_SWITCH, true);
+    }
+    
+    /**
+     * 设置是否在方案切换时振动
+     * @param context 上下文
+     * @param enabled 是否启用
+     */
+    public void setVibrationOnProfileSwitch(Context context, boolean enabled) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(KEY_VIBRATION_ON_PROFILE_SWITCH, enabled).apply();
+    }
+    
+    /**
+     * 是否在速度达到阈值时振动
+     * @param context 上下文
+     * @return 是否在速度达到阈值时振动 (默认 true)
+     */
+    public boolean isVibrationOnThreshold(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(KEY_VIBRATION_ON_THRESHOLD, true);
+    }
+    
+    /**
+     * 设置是否在速度达到阈值时振动
+     * @param context 上下文
+     * @param enabled 是否启用
+     */
+    public void setVibrationOnThreshold(Context context, boolean enabled) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(KEY_VIBRATION_ON_THRESHOLD, enabled).apply();
+    }
+    
+    /**
+     * 获取振动速度阈值
+     * 当速度超过此阈值时触发振动
+     * @param context 上下文
+     * @return 速度阈值 (km/h, 默认 30)
+     */
+    public int getVibrationSpeedThreshold(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getInt(KEY_VIBRATION_SPEED_THRESHOLD, 30);
+    }
+    
+    /**
+     * 设置振动速度阈值
+     * @param context 上下文
+     * @param threshold 速度阈值 (km/h)
+     */
+    public void setVibrationSpeedThreshold(Context context, int threshold) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putInt(KEY_VIBRATION_SPEED_THRESHOLD, threshold).apply();
+    }
+    
+    // ==================== 自动启停配置 ====================
+    
+    /**
+     * 是否启用自动启停
+     * @param context 上下文
+     * @return 是否启用自动启停 (默认 false)
+     */
+    public boolean isAutoStartStopEnabled(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(KEY_AUTO_START_STOP_ENABLED, false);
+    }
+    
+    /**
+     * 设置是否启用自动启停
+     * @param context 上下文
+     * @param enabled 是否启用
+     */
+    public void setAutoStartStopEnabled(Context context, boolean enabled) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(KEY_AUTO_START_STOP_ENABLED, enabled).apply();
+    }
+    
+    /**
+     * 获取触发蓝牙设备地址
+     * @param context 上下文
+     * @return 设备地址
+     */
+    public String getTriggerBluetoothAddress(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(KEY_TRIGGER_BLUETOOTH_ADDRESS, "");
+    }
+    
+    /**
+     * 设置触发蓝牙设备地址
+     * @param context 上下文
+     * @param address 设备地址
+     */
+    public void setTriggerBluetoothAddress(Context context, String address) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putString(KEY_TRIGGER_BLUETOOTH_ADDRESS, address).apply();
+    }
+    
+    /**
+     * 获取触发蓝牙设备名称
+     * @param context 上下文
+     * @return 设备名称
+     */
+    public String getTriggerBluetoothName(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(KEY_TRIGGER_BLUETOOTH_NAME, "");
+    }
+    
+    /**
+     * 设置触发蓝牙设备名称
+     * @param context 上下文
+     * @param name 设备名称
+     */
+    public void setTriggerBluetoothName(Context context, String name) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putString(KEY_TRIGGER_BLUETOOTH_NAME, name).apply();
+    }
+    
+    /**
+     * 清除触发设备设置
+     * @param context 上下文
+     */
+    public void clearTriggerDevice(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit()
+            .remove(KEY_TRIGGER_BLUETOOTH_ADDRESS)
+            .remove(KEY_TRIGGER_BLUETOOTH_NAME)
+            .apply();
     }
     
     public int calculateProfile2Volume(Context context, float speedKmh) {

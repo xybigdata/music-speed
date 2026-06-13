@@ -1,4 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">音速骑士</string>
+    <string name="tile_label">音速骑士</string>
+    
+    <!-- 通知相关字符串 -->
+    <string name="notification_channel_name">音速骑士服务</string>
+    <string name="notification_speed_label">速度</string>
+    <string name="notification_speed_unit">km/h</string>
+    <string name="notification_volume_label">音量</string>
+    <string name="notification_battery_label">电量</string>
+    <string name="notification_action_pause">暂停</string>
+    <string name="notification_action_resume">继续</string>
+    <string name="notification_action_stop">停止</string>
+    <string name="notification_action_open">打开应用</string>
+    <string name="notification_status_gps">GPS模式</string>
+    <string name="notification_status_sensor">传感器模式</string>
+    <string name="notification_status_paused">已暂停</string>
+    <string name="notification_status_idle">静止待机</string>
+    <string name="notification_status_low_power">省电模式</string>
+    
+    <!-- 配置编辑相关字符串 -->
+    <string name="config_error_title">输入错误</string>
+    <string name="config_error_empty_name">方案名称不能为空</string>
+    <string name="config_error_invalid_range">速度范围无效：最小速度不能大于最大速度</string>
+    <string name="config_error_invalid_volume">音量必须在 0-100% 之间</string>
+    <string name="config_warning_discontinuous">速度范围不连续，可能存在未覆盖的速度区间</string>
+    
+    <!-- 配置模板 -->
+    <string name="template_city_commute">城市通勤</string>
+    <string name="template_city_commute_desc">适合城市骑行，低速安静，高速渐强</string>
+    <string name="template_highway">高速公路</string>
+    <string name="template_highway_desc">适合高速骑行，音量随速度快速增长</string>
+    <string name="template_leisure">休闲骑行</string>
+    <string name="template_leisure_desc">适合休闲骑行，音量变化平缓</string>
+    <string name="template_sport">运动模式</string>
+    <string name="template_sport_desc">适合运动骑行，音量范围大</string>
+    
+    <!-- 配置界面标签 -->
+    <string name="config_volume_preview">速度-音量曲线预览</string>
+    <string name="config_volume_limits">音量限制设置</string>
+    <string name="config_vibration_feedback">振动反馈设置</string>
+    <string name="config_templates">配置模板</string>
+    
+    <!-- 自动启停相关字符串 -->
+    <string name="auto_start_stop_title">自动启停</string>
+    <string name="auto_start_stop_description">连接指定蓝牙设备时自动启动服务，断开时自动停止</string>
+    <string name="bluetooth_paired_devices">已配对设备</string>
+    <string name="bluetooth_current_device">当前触发设备：%1$s</string>
+    <string name="bluetooth_no_paired_devices">没有已配对的蓝牙设备</string>
+    <string name="bluetooth_not_supported">此设备不支持蓝牙</string>
+    <string name="bluetooth_disabled">蓝牙未开启，请先开启蓝牙</string>
+    <string name="bluetooth_permission_required">需要蓝牙权限才能读取设备列表</string>
+    <string name="bluetooth_clear_selection">清除选择</string>
+    <string name="bluetooth_selection_cleared">已清除设备选择</string>
+    <string name="bluetooth_enable_auto_start_first">请先开启自动启停功能</string>
+    <string name="bluetooth_select_device_title">选择触发设备</string>
+    <string name="bluetooth_select_device_message">选择 \"%1$s\" 作为触发设备？\n连接此设备时将自动启动服务，断开时自动停止。</string>
+    <string name="bluetooth_device_selected">已选择 %1$s 作为触发设备</string>
+    
+    <!-- 通用按钮 -->
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
 </resources>
