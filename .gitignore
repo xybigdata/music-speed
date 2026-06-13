@@ -31,7 +31,7 @@ local.properties
 .vscode/
 
 # Kiro spec files (keep for documentation)
-# .kiro/
+.kiro/
 
 # OS generated files
 .DS_Store
